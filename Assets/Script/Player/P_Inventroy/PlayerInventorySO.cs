@@ -12,22 +12,22 @@ public class PlayerInventorySO : MonoBehaviour
         if (items.Count < maxCapacity)
         {
             items.Add(item);
-            Debug.Log(item.itemName + " 추가됨. 현재 아이템 수: " + items.Count);
+            Debug.Log("아.추");
             return true;
         }
-        Debug.Log("가방이 가득 찼습니다!");
+        Debug.Log("인.꽉");
         return false;
     }
 
-    public bool RemoveItem(Item item)
+    public bool UesItem(Item item)
     {
         if (items.Contains(item))
         {
             items.Remove(item);
-            Debug.Log(item.itemName + " 제거됨. 남은 아이템 수: " + items.Count);
+            Debug.Log("아.사");
             return true;
         }
-        Debug.Log("해당 아이템이 가방에 없습니다.");
+        Debug.Log("가.없");
         return false;
     }
 }
