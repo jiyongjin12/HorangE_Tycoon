@@ -5,8 +5,8 @@ using static UnityEditor.Progress;
 
 public class RiceCakeMachion : MonoBehaviour
 {
-    public Item tteokItem;              // 생산할 떡 아이템
-    public float interactionDelay = 1f;     // 영역 진입 후 대기 시간
+    public Item tteokItem;              // 생산할 아이템
+    public float interactionDelay = 1f;     // 진입 후 대기 시간
     public float productionInterval = 1.5f; // 생산 간격
     private Coroutine productionCoroutine;
 

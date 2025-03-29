@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ConstructionZone : MonoBehaviour
 {
-    public int machineCost = 200;         // 기계 제작 비용
-    public float interactionDelay = 1f;     // 영역 진입 후 대기 시간
+    public int machineCost = 200;         // 제작 비용
+    public float interactionDelay = 1f;     // 진입 후 대기 시간
     public float interactionInterval = 0.1f;  // 돈 소비 간격
     private Coroutine interactionCoroutine;
     private bool constructionComplete = false;

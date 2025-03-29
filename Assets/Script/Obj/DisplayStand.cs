@@ -5,7 +5,7 @@ using static UnityEditor.Progress;
 
 public class DisplayStand : MonoBehaviour
 {
-    public float interactionDelay = 1f;  // 영역에 머무른 후 전시 시작 시간
+    public float interactionDelay = 1f;  // 머무른 후 전시 시작
     private Coroutine interactionCoroutine;
 
     public List<Item> items = new List<Item>();
@@ -20,7 +20,6 @@ public class DisplayStand : MonoBehaviour
             Debug.Log(item.itemName + " 진열대에 추가됨. 현재 진열 수: " + items.Count);
             return true;
         }
-        Debug.Log("진열대가 가득 찼습니다!");
         return false;
     }
     #endregion
@@ -54,13 +53,14 @@ public class DisplayStand : MonoBehaviour
             PlayerInventorySO holder = player.GetComponent<PlayerInventorySO>();
             if (holder != null && holder != null)
             {
-                // 플레이어 인벤토리의 첫 번째 아이템을 전시 (예시)
+                // 플레이어 인벤토리의 첫 번째 아이템을 전시
                 if (holder.items.Count > 0)
                 {
                     Item item = holder.items[0];
                     if (AddItem(item))
                     {
-                        holder.items.RemoveAt(0);
+                        //holder.items.RemoveAt(0);
+                        holder.UesItem(item);
                         Debug.Log(item.itemName + "전.완");
                     }
                     else
