@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8162201911169536249}
   - component: {fileID: 5014845697316288453}
   - component: {fileID: 6471336815128321235}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RiceCake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
