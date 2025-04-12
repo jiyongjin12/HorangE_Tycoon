@@ -891,6 +891,27 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8151518482836749735, guid: 001ef6ceca1775f43891ea4925168866,
+        type: 3}
+      propertyPath: CustomerPosPrefab
+      value: 
+      objectReference: {fileID: 2186580001375938822, guid: d7d9094b8bead4045bd8113d6f833d63,
+        type: 3}
+    - target: {fileID: 8151518482836749735, guid: 001ef6ceca1775f43891ea4925168866,
+        type: 3}
+      propertyPath: CustomerPos_Interval.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151518482836749735, guid: 001ef6ceca1775f43891ea4925168866,
+        type: 3}
+      propertyPath: CustomerPos_Interval.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151518482836749735, guid: 001ef6ceca1775f43891ea4925168866,
+        type: 3}
+      propertyPath: CustomerPos_Interval.z
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 8162809263980553456, guid: 001ef6ceca1775f43891ea4925168866,
         type: 3}
       propertyPath: m_LocalPosition.x
