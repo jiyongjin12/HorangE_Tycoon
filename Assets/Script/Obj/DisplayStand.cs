@@ -5,15 +5,15 @@ using static UnityEditor.Progress;
 
 public class DisplayStand : MonoBehaviour
 {
-    public float interactionDelay = 1f;  // �ӹ��� �� ���� ����
+    public float interactionDelay = 1f;  // 한국어 테스트
     private Coroutine interactionCoroutine;
 
     public List<Item> items = new List<Item>();
     public int capacity = 15;
 
 
-    public int CustomerCount = 5;           // ���� �ִ� ũ��
-    public GameObject CustomerPosPrefab;    // ��� ��ġ ������
+    public int CustomerCount = 5;           // 한국어 인코딩 테스트
+    public GameObject CustomerPosPrefab;    // UTF-8확인
     public Vector3 CustomerPos_Interval = new Vector3(3, 0, 0);
 
     public List<Transform> CustomerPosList = new List<Transform>();
