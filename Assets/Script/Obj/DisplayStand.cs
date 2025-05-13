@@ -5,15 +5,15 @@ using static UnityEditor.Progress;
 
 public class DisplayStand : MonoBehaviour
 {
-    public float interactionDelay = 1f;  // ¸Ó¹«¸¥ ÈÄ Àü½Ã ½ÃÀÛ
+    public float interactionDelay = 1f;  // ï¿½Ó¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private Coroutine interactionCoroutine;
 
     public List<Item> items = new List<Item>();
     public int capacity = 15;
 
 
-    public int CustomerCount = 5;           // ÁÙÀÇ ÃÖ´ë Å©±â
-    public GameObject CustomerPosPrefab;    // ´ë±â À§Ä¡ ÇÁ¸®ÆÕ
+    public int CustomerCount = 5;           // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½ï¿½
+    public GameObject CustomerPosPrefab;    // ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Vector3 CustomerPos_Interval = new Vector3(3, 0, 0);
 
     public List<Transform> CustomerPosList = new List<Transform>();
@@ -30,19 +30,19 @@ public class DisplayStand : MonoBehaviour
 
     private void Update()
     {
-        // ºó ½½·ÔÀÌ ÀÖÀ¸¸é ¾ÕÀ¸·Î ´ç±è
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         UpdateCustomerQueue();
         UpdateCustomerPositionVisuals();
     }
 
 
-    #region Áø¿­´ë Ãß°¡
+    #region ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
     public bool AddItem(Item item)
     {
         if (items.Count < capacity)
         {
             items.Add(item);
-            Debug.Log(item.itemName + " Áø¿­´ë¿¡ Ãß°¡µÊ. ÇöÀç Áø¿­ ¼ö: " + items.Count);
+            Debug.Log(item.itemName + " ï¿½ï¿½ï¿½ï¿½ï¿½ë¿¡ ï¿½ß°ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: " + items.Count);
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ public class DisplayStand : MonoBehaviour
     #endregion
 
 
-    #region Áø¿­´ë
+    #region ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -79,7 +79,7 @@ public class DisplayStand : MonoBehaviour
             PlayerInventorySO holder = player.GetComponent<PlayerInventorySO>();
             if (holder != null && holder != null)
             {
-                // ÇÃ·¹ÀÌ¾î ÀÎº¥Åä¸®ÀÇ Ã¹ ¹øÂ° ¾ÆÀÌÅÛÀ» Àü½Ã
+                // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (holder.items.Count > 0)
                 {
                     Item item = holder.items[0];
@@ -87,16 +87,16 @@ public class DisplayStand : MonoBehaviour
                     {
                         //holder.items.RemoveAt(0);
                         holder.UesItem(item);
-                        Debug.Log(item.itemName + "Àü.¿Ï");
+                        Debug.Log(item.itemName + "ï¿½ï¿½.ï¿½ï¿½");
                     }
                     else
                     {
-                        Debug.Log("Áø.²Ë");
+                        Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
                     }
                 }
                 else
                 {
-                    Debug.Log("¾Æ.¾ø");
+                    Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
                 }
             }
             yield return new WaitForSeconds(interactionDelay);
@@ -107,10 +107,10 @@ public class DisplayStand : MonoBehaviour
     #region Customer Queue & Position Setup
     void SetupCustomerPositions()
     {
-        // À§Ä¡ ÇÁ¸®ÆÕ »ý¼º
+        // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < CustomerCount; i++)
         {
-            customerQueue.Add(null); // ÃÊ±âÈ­
+            customerQueue.Add(null); // ï¿½Ê±ï¿½È­
 
             Vector3 spawnPos = transform.position + (CustomerPos_Interval * i);
             GameObject posObj = Instantiate(CustomerPosPrefab, spawnPos, Quaternion.identity, transform);
@@ -121,7 +121,7 @@ public class DisplayStand : MonoBehaviour
 
     public void AddCustomerToQueue(Customer customer)
     {
-        // Ã¹ ºó ½½·ÔÀ» Ã£¾Æ ¼Õ´Ô Ãß°¡
+        // Ã¹ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½Õ´ï¿½ ï¿½ß°ï¿½
         for (int i = 0; i < customerQueue.Count; i++)
         {
             if (customerQueue[i] == null)
@@ -132,13 +132,13 @@ public class DisplayStand : MonoBehaviour
             }
         }
 
-        Debug.Log("ÁÙÀÌ ²Ë Ã¡½À´Ï´Ù.");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.");
     }
 
     private void UpdateCustomerQueue()
     {
         bool moved = false;
-        // ºó ½½·ÔÀÌ ÀÖÀ¸¸é µÚÀÇ ¼Õ´ÔµéÀ» ¾ÕÀ¸·Î ´ç°Ü¿È
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ü¿ï¿½
         for (int i = 0; i < customerQueue.Count - 1; i++)
         {
             if (customerQueue[i] == null && customerQueue[i + 1] != null)
@@ -159,7 +159,7 @@ public class DisplayStand : MonoBehaviour
     {
         if (!HaveItem)
         {
-            // HaveItem falseÀÌ¸é, ÀüÃ¼ CustomerPosList ºñÈ°¼ºÈ­
+            // HaveItem falseï¿½Ì¸ï¿½, ï¿½ï¿½Ã¼ CustomerPosList ï¿½ï¿½È°ï¿½ï¿½È­
             for (int i = 0; i < CustomerPosList.Count; i++)
             {
                 CustomerPosList[i].gameObject.SetActive(false);
@@ -170,23 +170,23 @@ public class DisplayStand : MonoBehaviour
         }
         else
         {
-            // HaveItemÀÌ true¶ó¸é CustomerPosList[0]Àº Ç×»ó È°¼ºÈ­
+            // HaveItemï¿½ï¿½ trueï¿½ï¿½ï¿½ CustomerPosList[0]ï¿½ï¿½ ï¿½×»ï¿½ È°ï¿½ï¿½È­
             if (CustomerPosList.Count > 0)
             {
                 CustomerPosList[0].gameObject.SetActive(true);
             }
         }
 
-        // customerQueue¿¡ ÀÖ´Â ¼Õ´ÔÀº CustomerPosList[1]ºÎÅÍ ¹èÁ¤
+        // customerQueueï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Õ´ï¿½ï¿½ï¿½ CustomerPosList[1]ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < customerQueue.Count; i++)
         {
-            int posIndex = i + 1; // customerQueue[0] ¡æ CustomerPosList[1], ...
+            int posIndex = i + 1; // customerQueue[0] ï¿½ï¿½ CustomerPosList[1], ...
             if (posIndex < CustomerPosList.Count)
             {
                 if (customerQueue[i] != null)
                 {
                     CustomerPosList[posIndex].gameObject.SetActive(true);
-                    // ¼Õ´Ô ¿ÀºêÁ§Æ®ÀÇ À§Ä¡¸¦ ¹èÁ¤µÈ CustomerPosList·Î ¾÷µ¥ÀÌÆ®
+                    // ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CustomerPosListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
                     customerQueue[i].transform.position = CustomerPosList[posIndex].position;
                 }
                 else

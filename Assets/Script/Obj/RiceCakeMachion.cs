@@ -5,9 +5,9 @@ using static UnityEditor.Progress;
 
 public class RiceCakeMachion : MonoBehaviour
 {
-    public Item tteokItem;              // »ý»êÇÒ ¾ÆÀÌÅÛ
-    public float interactionDelay = 1f;     // ÁøÀÔ ÈÄ ´ë±â ½Ã°£
-    public float productionInterval = 1.5f; // »ý»ê °£°Ý
+    public Item tteokItem;              // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float interactionDelay = 1f;     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    public float productionInterval = 1.5f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private Coroutine productionCoroutine;
 
     private bool machineConstructed = true;
@@ -42,11 +42,11 @@ public class RiceCakeMachion : MonoBehaviour
             {
                 if (holder.AddItem(tteokItem))
                 {
-                    Debug.Log("¶±.Ãß");
+                    Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
                 }
                 else
                 {
-                    Debug.Log("ÀÎ.²Ë");
+                    Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
                 }
             }
             yield return new WaitForSeconds(productionInterval);

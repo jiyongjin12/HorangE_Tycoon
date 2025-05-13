@@ -11,7 +11,7 @@ public class PlayerInventorySO : MonoBehaviour
     public GameObject Player_Hand;
     public float itemStackOffset = 0.3f;
 
-    // ÀÎº¥Åä¸®¿¡ Ãß°¡µÈ ¾ÆÀÌÅÛÀÇ ½ºÆùµÈ ÇÁ¸®ÆÕÀ» °ü¸®ÇÏ´Â ¸®½ºÆ®
+    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     [SerializeField]
     private List<GameObject> spawnedItems = new List<GameObject>();
 
@@ -20,44 +20,44 @@ public class PlayerInventorySO : MonoBehaviour
         if (items.Count < maxCapacity)
         {
             items.Add(item);
-            Debug.Log("¾Æ.Ãß");
+            Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
             if (item.Item_Prefab != null && Player_Hand != null)
             {
-                // Player_Hand¸¦ ºÎ¸ð·Î ÇÏ¿© ÇÁ¸®ÆÕ ÀÎ½ºÅÏ½º »ý¼º
+                // Player_Handï¿½ï¿½ ï¿½Î¸ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 GameObject spawnedItem = Instantiate(item.Item_Prefab, Player_Hand.transform);
-                // ½ºÆùµÈ ¾ÆÀÌÅÛÀÇ ·ÎÄÃ À§Ä¡¸¦ ÀÎº¥Åä¸® ¼ø¼­¿¡ µû¶ó ¼³Á¤
-                // ÀÎµ¦½º 0: Player_HandÀÇ ±âÁØ À§Ä¡, ±× ÀÌÈÄ·Î YÃà ¿ÀÇÁ¼ÂÀ» ´õÇÔ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                // ï¿½Îµï¿½ï¿½ï¿½ 0: Player_Handï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡, ï¿½ï¿½ ï¿½ï¿½ï¿½Ä·ï¿½ Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 spawnedItem.transform.localPosition = new Vector3(0, items.Count * itemStackOffset, 0);
                 spawnedItems.Add(spawnedItem);
             }
             return true;
         }
-        Debug.Log("ÀÎ.²Ë");
+        Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
         return false;
     }
 
     public bool UesItem(Item item)
     {
-        #region ¿¹Àü ¼¼ÀÌºê¿ë
+        #region ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½
         //if (items.Contains(item))
         //{
         //    int index = items.IndexOf(item);
         //    items.Remove(item);
-        //    Debug.Log("¾Æ.»ç");
-        //    // ÀÎº¥Åä¸®¿¡¼­ Á¦°ÅµÈ ¾ÆÀÌÅÛ¿¡ ´ëÀÀÇÏ´Â ½ºÆùµÈ ¿ÀºêÁ§Æ®µµ Á¦°Å
+        //    Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
+        //    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         //    if (spawnedItems.Count > index)
         //    {
         //        Destroy(spawnedItems[index]);
         //        spawnedItems.RemoveAt(index);
         //    }
-        //    // ³²Àº ¾ÆÀÌÅÛµéÀÇ ½ºÅÃ À§Ä¡¸¦ ´Ù½Ã ÀçÁ¶Á¤ (ÀÎº¥Åä¸® ¼ø¼­´ë·Î ½×ÀÓ)
+        //    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         //    for (int i = 0; i < spawnedItems.Count; i++)
         //    {
         //        spawnedItems[i].transform.localPosition = new Vector3(0, (i + 1) * itemStackOffset, 0);
         //    }
         //    return true;
         //}
-        //Debug.Log("°¡.¾ø");
+        //Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
         //return false;
         #endregion
 
@@ -65,21 +65,21 @@ public class PlayerInventorySO : MonoBehaviour
         {
             int index = items.IndexOf(item);
             items.RemoveAt(index);
-            Debug.Log("¾Æ.»ç");
-            // ÀÎº¥Åä¸®¿¡¼­ Á¦°ÅµÈ ¾ÆÀÌÅÛ¿¡ ´ëÀÀÇÏ´Â ½ºÆùµÈ ¿ÀºêÁ§Æ®µµ Á¦°Å
+            Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
+            // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (spawnedItems.Count > index)
             {
                 Destroy(spawnedItems[index]);
                 spawnedItems.RemoveAt(index);
             }
-            // ³²Àº ¾ÆÀÌÅÛµéÀÇ ½ºÅÃ À§Ä¡¸¦ ´Ù½Ã ÀçÁ¶Á¤ (ÀÎº¥Åä¸® ¼ø¼­´ë·Î ½×ÀÓ)
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             for (int i = 0; i < spawnedItems.Count; i++)
             {
                 spawnedItems[i].transform.localPosition = new Vector3(0, (i + 1) * itemStackOffset, 0);
             }
             return true;
         }
-        Debug.Log("°¡.¾ø");
+        Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
         return false;
     }
 }

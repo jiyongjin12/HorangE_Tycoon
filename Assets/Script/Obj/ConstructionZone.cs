@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ConstructionZone : MonoBehaviour
 {
-    public int machineCost = 200;         // Á¦ÀÛ ºñ¿ë
-    public float interactionDelay = 1f;     // ÁøÀÔ ÈÄ ´ë±â ½Ã°£
-    public float interactionInterval = 0.1f;  // µ· ¼Òºñ °£°Ý
+    public int machineCost = 200;         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public float interactionDelay = 1f;     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    public float interactionInterval = 0.1f;  // ï¿½ï¿½ ï¿½Òºï¿½ ï¿½ï¿½ï¿½ï¿½
     private Coroutine interactionCoroutine;
     private bool constructionComplete = false;
 
@@ -49,13 +49,13 @@ public class ConstructionZone : MonoBehaviour
                 {
                     constructionComplete = true;
                     RiceCakeMachion.gameObject.SetActive(true);
-                    Debug.Log("±â.Á¦.³¡");
+                    Debug.Log("ï¿½ï¿½.ï¿½ï¿½.ï¿½ï¿½");
 
                     gameObject.SetActive(false);
                 }
                 else
                 {
-                    Debug.Log("µ·.¾ø");
+                    Debug.Log("ï¿½ï¿½.ï¿½ï¿½");
                 }
             }
             yield return new WaitForSeconds(interactionInterval);
