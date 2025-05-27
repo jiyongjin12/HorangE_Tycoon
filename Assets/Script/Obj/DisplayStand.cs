@@ -199,30 +199,37 @@ public class DisplayStand : MonoBehaviour
 
     [Header("대기열 설정")]
     public List<Transform> customerPositions;
-    [SerializeField]private List<Customer> customerQueue = new List<Customer>();
+    public List<Customer> customerQueue = new List<Customer>();
 
 
     private void Start()
     {
-        // queue 초기화 (최대 customerPositions.Count 개)
+        // customerQueue 초기화
         for (int i = 0; i < customerPositions.Count; i++)
             customerQueue.Add(null);
     }
 
     private void Update()
     {
-        // 줄에 빈 칸이 있으면 자동으로 땡겨서 앞쪽부터 채우기
-        bool shifted = false;
+        // 쇼핑 완료한 손님 제거
+        for (int i = 0; i < customerQueue.Count; i++)
+        {
+            var c = customerQueue[i];
+            if (c != null && c.shoppingCompleted)
+            {
+                customerQueue[i] = null;
+            }
+        }
+
+        // 줄에 빈 칸이 있을때 앞쪽부터 채우기
         for (int i = 0; i < customerQueue.Count - 1; i++)
         {
             if (customerQueue[i] == null && customerQueue[i + 1] != null)
             {
                 customerQueue[i] = customerQueue[i + 1];
                 customerQueue[i + 1] = null;
-                shifted = true;
             }
         }
-        if (shifted) UpdateCustomerPositions();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -312,7 +319,6 @@ public class DisplayStand : MonoBehaviour
             if (customerQueue[i] == null)
             {
                 customerQueue[i] = c;
-                UpdateCustomerPositions();
                 return true;
             }
         }
@@ -325,28 +331,6 @@ public class DisplayStand : MonoBehaviour
     {
         if (customerQueue[0] == null) return;
         customerQueue[0] = null;
-        // Update()에서 자동으로 땡기고 위치 갱신
-    }
-
-    // current customerQueue 상태에 맞춰
-    // 각 고객을 customerPositions[i] 위치로 이동시키고,
-    // 해당 위치 활성화/비활성화 처리
-    private void UpdateCustomerPositions()
-    {
-        for (int i = 0; i < customerPositions.Count; i++)
-        {
-            var pos = customerPositions[i];
-            var cust = (i < customerQueue.Count) ? customerQueue[i] : null;
-
-            // 고객이 있으면 위치 활성화, 없으면 비활성화
-            pos.gameObject.SetActive(cust != null);
-
-            if (cust != null)
-            {
-                // NavMeshAgent 이동 또는 단순 포지션 세팅
-                //cust.MoveTo(pos.position);
-            }
-        }
     }
 
     #endregion
