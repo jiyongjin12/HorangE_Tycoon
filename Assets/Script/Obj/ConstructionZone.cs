@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ConstructionZone : MonoBehaviour
 {
-    public int machineCost = 200;         // ���� ���
-    public float interactionDelay = 1f;     // ���� �� ��� �ð�
-    public float interactionInterval = 0.1f;  // �� �Һ� ����
+    public int machineCost = 200;         
+    public float interactionDelay = 1f;     
+    public float interactionInterval = 0.1f;  
     private Coroutine interactionCoroutine;
     private bool constructionComplete = false;
 
@@ -55,7 +55,7 @@ public class ConstructionZone : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("��.��");
+                    Debug.Log("��.��"); // 이거 뭐였지
                 }
             }
             yield return new WaitForSeconds(interactionInterval);
