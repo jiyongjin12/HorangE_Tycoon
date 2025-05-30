@@ -6,10 +6,8 @@ using UnityEngine;
 public class ConstructionZone : MonoBehaviour
 {
     public int machineCost = 200;         
-    public float interactionDelay = 1f;     
-    public float interactionInterval = 0.1f;  
+    public float interactionDelay = 1f;
     private Coroutine interactionCoroutine;
-    private bool constructionComplete = false;
 
     public GameObject RiceCakeMachion;
 
@@ -20,7 +18,7 @@ public class ConstructionZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !constructionComplete)
+        if (other.CompareTag("Player"))
         {
             interactionCoroutine = StartCoroutine(StartConstruction(other));
         }
@@ -41,24 +39,14 @@ public class ConstructionZone : MonoBehaviour
     IEnumerator StartConstruction(Collider player)
     {
         yield return new WaitForSeconds(interactionDelay);
-        while (!constructionComplete)
+        if (MoneyManager.Instance != null)
         {
-            if (MoneyManager.Instance != null)
+            if (MoneyManager.Instance.SpendMoney(machineCost))
             {
-                if (MoneyManager.Instance.SpendMoney(machineCost))
-                {
-                    constructionComplete = true;
-                    RiceCakeMachion.gameObject.SetActive(true);
-                    Debug.Log("��.��.��");
+                RiceCakeMachion.gameObject.SetActive(true);
 
-                    gameObject.SetActive(false);
-                }
-                else
-                {
-                    Debug.Log("��.��"); // 이거 뭐였지
-                }
+                gameObject.SetActive(false);
             }
-            yield return new WaitForSeconds(interactionInterval);
         }
     }
 }

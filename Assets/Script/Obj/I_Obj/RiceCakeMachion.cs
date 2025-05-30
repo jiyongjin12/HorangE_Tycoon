@@ -5,9 +5,8 @@ using static UnityEditor.Progress;
 
 public class RiceCakeMachion : MonoBehaviour
 {
-    public Item tteokItem;              // ������ ������
-    public float interactionDelay = 1f;     // ���� �� ��� �ð�
-    public float productionInterval = 1.5f; // ���� ����
+    public Item tteokItem;              
+    public float interactionDelay = 1f;      // 아이템 집기 시간 
     private Coroutine productionCoroutine;
 
     private bool machineConstructed = true;
@@ -50,7 +49,7 @@ public class RiceCakeMachion : MonoBehaviour
                 //}
                 holder.AddItem(tteokItem);
             }
-            yield return new WaitForSeconds(productionInterval);
+            yield return new WaitForSeconds(interactionDelay);
         }
     }
 }

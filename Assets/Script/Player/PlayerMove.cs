@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     Rigidbody rb;
     public float speed = 2f;
-    public float rotationSpeed = 10f; // È¸Àü º¸°£ ¼Óµµ
+    public float rotationSpeed = 10f; // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
 
     void Start()
     {
@@ -15,19 +15,19 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        // ÀÔ·Â°ª Ã³¸®
+        // ï¿½Ô·Â°ï¿½ Ã³ï¿½ï¿½
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
         Vector3 inputDir = new Vector3(x, 0, y);
 
-        // ´ë°¢¼± ÀÔ·Â ½Ã ¼Óµµ°¡ Áõ°¡ÇÏ´Â °ÍÀ» ¹æÁö
+        // ï¿½ë°¢ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (inputDir.magnitude > 1)
             inputDir.Normalize();
 
-        // ¼Óµµ ¾÷µ¥ÀÌÆ®
+        // ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         rb.velocity = inputDir * speed;
 
-        // ÀÔ·ÂÀÌ ÀÖÀ» ¶§¸¸ È¸Àü ¾÷µ¥ÀÌÆ® (ÀÔ·ÂÀÌ ¾øÀ¸¸é ±âÁ¸ È¸Àü°ª À¯Áö)
+        // ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® (ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         if (inputDir.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(inputDir);
