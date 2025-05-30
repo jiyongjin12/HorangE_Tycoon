@@ -6,6 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Customer : MonoBehaviour
 {
+    public float PickUpItemTime;  // 진열대 처리는 손님쪽에서, 계산대는 계산대쪽에서 각자 기능 수행 ( 왜 이렇게 했을까... )
+
     [Header("Order Settings")]
     public int neededItemId;
     public int neededCount;
@@ -15,42 +17,60 @@ public class Customer : MonoBehaviour
 
     [Header("State Flags")]
     public bool shoppingCompleted = false;
+    public bool AllActionCompleted = false;
+
+    public Transform Exit;
 
     private NavMeshAgent agent;
-    private DisplayStand targetStand;
+    private DisplayStand targetStand1;
+    private CashDesk targetStand2;
+
     private Coroutine collectCoroutine;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
     }
 
     void Update()
     {
-        if (!shoppingCompleted)
+        if (AllActionCompleted)
         {
-            MoveInQueue();
+            if (!agent.hasPath || agent.destination != Exit.position)
+                agent.SetDestination(Exit.position);
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                Destroy(gameObject);
+            }
         }
         else
         {
-            // agent.SetDestination(nextDestination); 계산대로 이동 예정
+            if (!shoppingCompleted)
+            {
+                if (targetStand1 == null)
+                    FindDisplay();
+                MoveInDisplay();
+            }
+            else
+            {
+                if (targetStand2 == null)
+                    FindeCashDesk();
+                MoveInCashDesk();
+            }
         }
     }
 
-    private void FixedUpdate()
+    private void MoveInDisplay()
     {
-        SeekStand();
-    }
+        if (targetStand1 == null) return;
 
-    private void MoveInQueue()
-    {
-        if (targetStand == null) return;
-
-        int myIndex = targetStand.customerQueue.IndexOf(this);
+        int myIndex = targetStand1.customerQueue.IndexOf(this);
         if (myIndex < 0) return;
-
-        Transform slot = targetStand.customerPositions[myIndex];
-        if (agent.destination != slot.position)
+            
+        Transform slot = targetStand1.customerPositions[myIndex];
+        if (agent.destination != slot.position) 
         {
             agent.SetDestination(slot.position);
         }
@@ -58,11 +78,12 @@ public class Customer : MonoBehaviour
         // 맨 앞 자리에 도착하면 수집 시작
         if (myIndex == 0 && collectCoroutine == null && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
+            Debug.Log("Check");
             collectCoroutine = StartCoroutine(CollectItems());
         }
     }
 
-    void SeekStand()
+    void FindDisplay()
     {
         // 씬의 모든 Stand 중에서 원하는 item을 파는 곳 찾기
         foreach (var stand in FindObjectsOfType<DisplayStand>())
@@ -71,7 +92,7 @@ public class Customer : MonoBehaviour
             {
                 if (stand.EnqueueCustomer(this))
                 {
-                    targetStand = stand;
+                    targetStand1 = stand;
                     return;
                 }
             }
@@ -93,32 +114,61 @@ public class Customer : MonoBehaviour
         }
     }
 
-
-    IEnumerator CollectItems()
+    IEnumerator CollectItems() // 진열대 처리
     {
         while (inventory.Count < neededCount)
         {
-            int frontId = targetStand.GetFrontItemId();
+            // 만약 진열대에 재고가 없다면 잠시 대기 후 재시도
+            if (targetStand1.storedItems.Count == 0)
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+            int frontId = targetStand1.GetFrontItemId();
             if (frontId == neededItemId)
             {
-                Item item = targetStand.storedItems[0];
-                targetStand.ServeFrontItem();
+                var item = targetStand1.storedItems[0];
+                targetStand1.ServeFrontItem();
                 inventory.Add(item);
                 Debug.Log("아이템 수집: ID " + neededItemId + ", 총 " + inventory.Count);
             }
             else
             {
-                // 원하는 아이템이 아니면 줄에서 빠져 나와 뒤로
-                targetStand.DequeueFrontCustomer();
-                targetStand.EnqueueCustomer(this);
+                // 다른 아이템이 앞에 있으면 줄 뒤로 이동
+                targetStand1.DequeueFrontCustomer();
+                targetStand1.EnqueueCustomer(this);
+                collectCoroutine = null;
                 yield break;
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(PickUpItemTime);
         }
-        // 모두 수집 완료
         shoppingCompleted = true;
-        agent.ResetPath(); // 이게 경로 제거인듯?
-        targetStand.DequeueFrontCustomer();
+        agent.ResetPath();
+        targetStand1.DequeueFrontCustomer();
+        collectCoroutine = null;
         Debug.Log("쇼핑 완료: ID " + neededItemId);
+    }
+
+
+    private void MoveInCashDesk()
+    {
+        if (targetStand2 == null) return;
+
+        int idx = targetStand2.customerQueue.IndexOf(this);
+        if (idx < 0) return;
+        var slot = targetStand2.customerPositions[idx];
+        if (!agent.hasPath || agent.destination != slot.position)
+            agent.SetDestination(slot.position);
+    }
+
+    private void FindeCashDesk()
+    {
+        foreach (var desk in FindObjectsOfType<CashDesk>())
+        {
+            targetStand2 = desk;
+            targetStand2.EnqueueCustomer(this);
+            Debug.Log("확");
+            return;
+        }
     }
 }

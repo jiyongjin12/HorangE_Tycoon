@@ -16,3 +16,4 @@ MonoBehaviour:
   id: 0
   Item_Prefab: {fileID: 4699915400267548514, guid: f61e7a086a02eca4c8b2dca36876b5ae,
     type: 3}
+  Cost: 10

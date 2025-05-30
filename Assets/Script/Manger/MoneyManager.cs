@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
-    public int currentMoney = 500; // ÃÊ±â µ·
+    public int currentMoney = 500; // ï¿½Ê±ï¿½ ï¿½ï¿½
     public static MoneyManager Instance;
 
     private void Awake()
@@ -20,16 +20,13 @@ public class MoneyManager : MonoBehaviour
         if (currentMoney >= amount)
         {
             currentMoney -= amount;
-            Debug.Log(amount + "»ç¿ë.³²Àº: " + currentMoney);
             return true;
         }
-        Debug.Log("µ·.¾ø!");
         return false;
     }
 
     public void AddMoney(int amount)
     {
         currentMoney += amount;
-        Debug.Log(amount + "È¹µæ.µ·: " + currentMoney);
     }
 }

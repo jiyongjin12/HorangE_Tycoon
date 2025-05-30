@@ -9,19 +9,20 @@ public class CustomerSpawnManger : MonoBehaviour
 
     [SerializeField]
     private Transform SpawnPos;
-    [SerializeField]
-    private Transform GetOutPos;
-
-    private int currentCustomerCount;
-    public int MaxCustomerCount = 3;
 
     [SerializeField]
     private float spawnInterval = 3f;
     private float spawnTimer = 0f;
 
+    [SerializeField] private List<GameObject> CustomerList = new List<GameObject>();
+    public int MaxCustomerCount = 3;
+
     private void FixedUpdate()
     {
-        if (currentCustomerCount < MaxCustomerCount)
+        // Null 체크 및 리스트 정리
+        CustomerList.RemoveAll(customer => customer == null);
+
+        if (CustomerList.Count < MaxCustomerCount)
         {
             spawnTimer += Time.fixedDeltaTime;
 
@@ -33,18 +34,16 @@ public class CustomerSpawnManger : MonoBehaviour
         }
     }
 
-
     private void Spawn()
     {
         if (_Customer.Count == 0) return;
 
         GameObject customerPrefab = _Customer[Random.Range(0, _Customer.Count)];
-
         GameObject newCustomer = Instantiate(customerPrefab, SpawnPos.position, Quaternion.identity);
 
         // newCustomer.GetComponent<Customer>().SetExit(GetOutPos);
 
-        currentCustomerCount += 1;
+        CustomerList.Add(newCustomer);
     }
 
 }

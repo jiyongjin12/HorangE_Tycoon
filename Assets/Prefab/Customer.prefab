@@ -151,10 +151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a17590594e5dcb419552460a48dfff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PickUpItemTime: 0.2
   neededItemId: 0
   neededCount: 3
   inventory: []
   shoppingCompleted: 0
+  AllActionCompleted: 0
+  Exit: {fileID: 1114300928734674353, guid: 7c972b5001b5b37438c883c92e7a612c, type: 3}
 --- !u!195 &2022009210342942156
 NavMeshAgent:
   m_ObjectHideFlags: 0

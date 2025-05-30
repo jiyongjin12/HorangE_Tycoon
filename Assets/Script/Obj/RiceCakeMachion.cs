@@ -40,14 +40,15 @@ public class RiceCakeMachion : MonoBehaviour
             PlayerInventorySO holder = player.GetComponent<PlayerInventorySO>();
             if (holder != null && holder != null)
             {
-                if (holder.AddItem(tteokItem))
-                {
-                    Debug.Log("��.��");
-                }
-                else
-                {
-                    Debug.Log("��.��");
-                }
+                //if (holder.AddItem(tteokItem))
+                //{
+                //    Debug.Log("��.��");
+                //}
+                //else
+                //{
+                //    Debug.Log("��.��");
+                //}
+                holder.AddItem(tteokItem);
             }
             yield return new WaitForSeconds(productionInterval);
         }
