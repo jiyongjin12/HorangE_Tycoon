@@ -1,23 +1,28 @@
+using System;
 using UnityEngine;
 
 public class InteractionPoint : MonoBehaviour
 {
-    public float requiredTime = 2f;
+    public event Action<Collider> OnEntered;
+    public event Action<Collider> OnExited;
 
-    public bool pubool = false;
-
-    private bool isInside = false;
-    private float ETime;
+    public bool Check = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        isInside = true;
-        ETime = Time.time;
+        if (other.CompareTag("Player"))
+        {
+            OnEntered?.Invoke(other);
+            Check = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        isInside = false;
+        if (other.CompareTag("Player"))
+        {
+            OnExited?.Invoke(other);
+            Check = false;
+        }
     }
-
 }

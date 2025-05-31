@@ -88,14 +88,16 @@ public class Customer : MonoBehaviour
         // 씬의 모든 Stand 중에서 원하는 item을 파는 곳 찾기
         foreach (var stand in FindObjectsOfType<DisplayStand>())
         {
-            if (stand.storedItems.Exists(i => i.id == neededItemId))
+            if (stand.EnqueueCustomer(this))
             {
-                if (stand.EnqueueCustomer(this))
-                {
-                    targetStand1 = stand;
-                    return;
-                }
+                targetStand1 = stand;
+                return;
             }
+
+            //if (stand.storedItems.Exists(i => i.id == neededItemId))
+            //{
+                
+            //}
         }
     }
 

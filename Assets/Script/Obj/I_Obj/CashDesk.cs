@@ -15,10 +15,23 @@ public class CashDesk : MonoBehaviour
 
     private Coroutine processCoroutine;
 
+    // 외부 트리거
+    public InteractionPoint Trigger;
+
     void Start()
     {
+        Trigger.OnEntered += HandleEnter;
+        Trigger.OnExited += HandleExit;
+
         for (int i = 0; i < customerPositions.Count; i++)
             customerQueue.Add(null);
+    }
+
+    private void OnDisable()
+    {
+        // 씬 전환이나 비활성화 시 이벤트 언등록
+        Trigger.OnEntered -= HandleEnter;
+        Trigger.OnExited -= HandleExit;
     }
 
     void Update()
@@ -56,21 +69,38 @@ public class CashDesk : MonoBehaviour
         return false;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void HandleEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
+        if (processCoroutine == null)
             processCoroutine = StartCoroutine(ProcessPayments());
-        }
     }
 
-    void OnTriggerExit(Collider other)
+    private void HandleExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+
+        if (processCoroutine != null)
         {
             StopCoroutine(processCoroutine);
+            processCoroutine = null;
         }
+
     }
+
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        processCoroutine = StartCoroutine(ProcessPayments());
+    //    }
+    //}
+
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        StopCoroutine(processCoroutine);
+    //    }
+    //}
 
     private IEnumerator ProcessPayments()
     {

@@ -150,15 +150,24 @@ public class DisplayStand : MonoBehaviour
     public List<Transform> customerPositions;
     public List<Customer> customerQueue = new List<Customer>();
 
-    private int playerColliderCount = 0;
-    private bool playerInZone => playerColliderCount > 0;
-
+    // 외부 트리거
+    public InteractionPoint Trigger;
 
     private void Start()
     {
+        Trigger.OnEntered += HandleEnter;
+        Trigger.OnExited += HandleExit;
+
         // customerQueue 초기화
         for (int i = 0; i < customerPositions.Count; i++)
             customerQueue.Add(null);
+    }
+
+    private void OnDisable()
+    {
+        // 씬 전환이나 비활성화 시 이벤트 언등록
+        Trigger.OnEntered -= HandleEnter;
+        Trigger.OnExited -= HandleExit;
     }
 
     private void Update()
@@ -184,38 +193,28 @@ public class DisplayStand : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void HandleEnter(Collider other)
     {
-        // 오직 "PlayerInventorySO"를 가진 진짜 플레이어만 처리
-        var inv = other.GetComponent<PlayerInventorySO>();
-        if (inv == null) return;
-
-        playerColliderCount++;
-        if (playerColliderCount == 1 && transferCoroutine == null)
-        {
+        if (transferCoroutine == null)
             transferCoroutine = StartCoroutine(TransferItem(other));
-        }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void HandleExit(Collider other)
     {
-        var inv = other.GetComponent<PlayerInventorySO>();
-        if (inv == null) return;
 
-        playerColliderCount = Mathf.Max(0, playerColliderCount - 1);
-        if (playerColliderCount == 0 && transferCoroutine != null)
+        if (transferCoroutine != null)
         {
             StopCoroutine(transferCoroutine);
             transferCoroutine = null;
         }
+
     }
 
     private IEnumerator TransferItem(Collider player)
     {
         yield return new WaitForSeconds(interactionDelay);
 
-        // 진짜 플레이어가 여전히 범위 안에 있는 동안에만 동작
-        while (playerInZone)
+        while (true)
         {
             var holder = player.GetComponent<PlayerInventorySO>();
             if (holder != null && holder.items.Count > 0 && storedItems.Count < capacity)
@@ -228,8 +227,6 @@ public class DisplayStand : MonoBehaviour
             }
             yield return new WaitForSeconds(interactionDelay);
         }
-        // 루프를 빠져나오면 코루틴 종료
-        transferCoroutine = null;
     }
 
     public bool AddItem(Item item)
