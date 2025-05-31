@@ -17,6 +17,7 @@ public class CustomerSpawnManger : MonoBehaviour
     [SerializeField] private List<GameObject> CustomerList = new List<GameObject>();
     public int MaxCustomerCount = 3;
 
+
     private void FixedUpdate()
     {
         // Null 체크 및 리스트 정리

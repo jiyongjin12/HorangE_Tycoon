@@ -86,22 +86,6 @@ public class CashDesk : MonoBehaviour
 
     }
 
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        processCoroutine = StartCoroutine(ProcessPayments());
-    //    }
-    //}
-
-    //void OnTriggerExit(Collider other)
-    //{
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        StopCoroutine(processCoroutine);
-    //    }
-    //}
-
     private IEnumerator ProcessPayments()
     {
         yield return new WaitForSeconds(processingDelay);
@@ -118,7 +102,7 @@ public class CashDesk : MonoBehaviour
                         MoneyManager.Instance.AddMoney(item.Cost);
 
                     front.inventory.RemoveAt(0);
-                    Debug.Log(MoneyManager.Instance.currentMoney);
+                    Debug.Log(MoneyManager.Instance.Money);
                 }
             }
             yield return new WaitForSeconds(processingDelay);

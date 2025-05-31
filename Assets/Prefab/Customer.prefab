@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a17590594e5dcb419552460a48dfff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickUpItemTime: 1.2
+  PickUpItemTime: 1.5
   neededItemId: 0
   neededCount: 3
   inventory: []
