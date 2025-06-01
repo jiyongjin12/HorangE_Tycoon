@@ -157,7 +157,7 @@ MonoBehaviour:
   inventory: []
   shoppingCompleted: 0
   AllActionCompleted: 0
-  Exit: {fileID: 1114300928734674353, guid: 7c972b5001b5b37438c883c92e7a612c, type: 3}
+  Exit: {fileID: 3713849999406242302, guid: 69096438d57144943b26e75ab20c6234, type: 3}
 --- !u!195 &2022009210342942156
 NavMeshAgent:
   m_ObjectHideFlags: 0
