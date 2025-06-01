@@ -49311,15 +49311,17 @@ MonoBehaviour:
   interactionDelay: 1.5
   workerProductionInterval: 3
   storageVisualParent: {fileID: 988717751}
+  maxStorageCapacity: 15
   stackInterval: 0.55
   PickUpItemTime: 1
+  tempStorage: []
   MakeTrigger: {fileID: 1422976354}
   temporaryStorageTrigger: {fileID: 454772590}
   UpgradeTrigger: {fileID: 1019423635}
   isUpgraded: 0
   UpgradeCost: 150
   upgradeTime: 5
-  workerPrefab: {fileID: 4812212180234715449}
+  PartTimeWorkerPrefab: {fileID: 4812212180234715449}
 --- !u!23 &5188980928911649279
 MeshRenderer:
   m_ObjectHideFlags: 0
