@@ -93,11 +93,6 @@ public class Customer : MonoBehaviour
                 targetStand1 = stand;
                 return;
             }
-
-            //if (stand.storedItems.Exists(i => i.id == neededItemId))
-            //{
-                
-            //}
         }
     }
 

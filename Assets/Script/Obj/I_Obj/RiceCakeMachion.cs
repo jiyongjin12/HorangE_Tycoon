@@ -62,12 +62,12 @@ public class RiceCakeMachion : MonoBehaviour
     //}
 
 
-    [Header("떡 아이템 설정")]
+    [Header("아이템")]
     public Item tteokItem;
     public float interactionDelay = 1f;               // 플레이어 생산속도
     public float workerProductionInterval = 1.5f;     // 알바생 생산속도
 
-    [Header("임시 저장고 설정")]
+    [Header("임시 저장고")]
     public Transform storageVisualParent;             // 떡 생성 위치
     public int maxStorageCapacity = 15;               // 임시 저장소 최대 개수
     public float stackInterval = 0.8f;                // 생성 떡 간격
@@ -80,7 +80,7 @@ public class RiceCakeMachion : MonoBehaviour
     public InteractionPoint temporaryStorageTrigger; // 아이템 회수
     public InteractionPoint UpgradeTrigger;          // 업그레이드 시작
 
-    [Header("업그레이드 설정")]
+    [Header("업그레이드")]
     public bool isUpgraded = false;
     public int UpgradeCost = 500;                    // 가격
     public float upgradeTime = 5f;                   // 업그레이드 소요 시간
@@ -88,8 +88,6 @@ public class RiceCakeMachion : MonoBehaviour
 
     private Coroutine playerProductionCoroutine;
     private Coroutine transferCoroutine;
-    //private Coroutine workerProductionCoroutine;
-    //private Coroutine upgradeCoroutine;
 
     private void Start()
     {
