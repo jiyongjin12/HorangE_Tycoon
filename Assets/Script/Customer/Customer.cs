@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -11,6 +13,7 @@ public class Customer : MonoBehaviour
     [Header("Order Settings")]
     public int neededItemId;
     public int neededCount;
+    public Item needItem;
 
     [Header("Collected Items")]
     public List<Item> inventory = new List<Item>();
@@ -26,11 +29,32 @@ public class Customer : MonoBehaviour
     private CashDesk targetStand2;
 
     private Coroutine collectCoroutine;
+    private Coroutine hideCanvasDCoroutine;
+
+    [Header("UI_Display")]
+    public bool ShowCanvas_D = false;
+    public GameObject Base_D;
+    public Image ItemSprite_D;
+    public TMP_Text CountText_D;
+    public GameObject CheckImage_D;
+
+    [Header("UI_CostTable")]
+    public bool ShowCanvas_C = false;
+    public GameObject Base_C;
+    public Image ItemSprite_C;
+    public TMP_Text CountText_C;
+    public GameObject CheckImage_C;
+
+    private bool tes = false;
+
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
+        CheckImage_D.transform.localScale = Vector3.zero;
+        CheckImage_C.transform.localScale = Vector3.zero;
+        //Base_D.SetActive(false);
+        //Base_C.SetActive(false);
     }
 
     void Update()
@@ -60,7 +84,80 @@ public class Customer : MonoBehaviour
                 MoveInCashDesk();
             }
         }
+
+        if (ShowCanvas_D)
+        {
+            Base_D.SetActive(true);
+            UISetting_D();
+        }
+        if (ShowCanvas_C)
+        {
+            Base_C.SetActive(true);
+            UISetting_C();
+        }
+
     }
+
+    void UISetting_D()
+    {
+        int a = neededCount - inventory.Count;
+
+        ItemSprite_D.sprite = needItem.TuckImage;
+        CountText_D.text = a.ToString();
+
+        if (a == 0)
+            ShowCanvas_D = false;
+
+
+        if(!ShowCanvas_D && !tes)
+        {
+            hideCanvasDCoroutine = StartCoroutine(AnimateCheckAndHide(CheckImage_D));
+            tes = true;
+        }
+    }
+
+    void UISetting_C()
+    {
+        ItemSprite_C.sprite = needItem.TuckImage;
+
+        CountText_C.text = inventory.Count.ToString();
+
+        if (inventory.Count == 0)
+            ShowCanvas_C = false;
+
+        if (!ShowCanvas_C && !tes)
+        {
+            hideCanvasDCoroutine = StartCoroutine(AnimateCheckAndHide(CheckImage_C));
+            tes = true;
+        }
+    }
+
+
+    private IEnumerator AnimateCheckAndHide(GameObject Obj)
+    {
+        Obj.SetActive(true);
+
+        float duration = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            Vector3 scale = Vector3.one * smoothT;
+            Obj.transform.localScale = scale;
+            tes = false;
+            yield return null;
+        }
+
+
+        Base_D.SetActive(false);
+
+        hideCanvasDCoroutine = null;
+    }
+
 
     private void MoveInDisplay()
     {
@@ -81,11 +178,14 @@ public class Customer : MonoBehaviour
             Debug.Log("Check");
             collectCoroutine = StartCoroutine(CollectItems());
         }
+
+        if (myIndex == 0)
+            ShowCanvas_D = true;
+
     }
 
     void FindDisplay()
     {
-        // 씬의 모든 Stand 중에서 원하는 item을 파는 곳 찾기
         foreach (var stand in FindObjectsOfType<DisplayStand>())
         {
             if (stand.EnqueueCustomer(this))
@@ -156,6 +256,9 @@ public class Customer : MonoBehaviour
         var slot = targetStand2.customerPositions[idx];
         if (!agent.hasPath || agent.destination != slot.position)
             agent.SetDestination(slot.position);
+
+        if (idx == 0)
+            ShowCanvas_C = true;
     }
 
     private void FindeCashDesk()

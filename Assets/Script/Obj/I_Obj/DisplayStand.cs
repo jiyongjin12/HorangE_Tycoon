@@ -38,6 +38,7 @@ public class DisplayStand : MonoBehaviour
 
     private void Update()
     {
+
         // 쇼핑 완료한 손님 제거
         for (int i = 0; i < customerQueue.Count; i++)
         {

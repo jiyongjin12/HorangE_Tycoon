@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: PatJuck
   id: 0
-  Item_Prefab: {fileID: 4699915400267548514, guid: f61e7a086a02eca4c8b2dca36876b5ae,
+  Item_Prefab: {fileID: 2158584319413667173, guid: a8a4a0ffaf84d3f4cbe1ef0fb15aeec8,
     type: 3}
   Cost: 10
+  TuckImage: {fileID: 21300000, guid: e23be94b64af14b48967948b4a850f01, type: 3}

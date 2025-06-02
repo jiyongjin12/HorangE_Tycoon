@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,4 +8,6 @@ public class Item : ScriptableObject
     public int id;
     public GameObject Item_Prefab;
     public int Cost;
+
+    public Sprite TuckImage;
 }

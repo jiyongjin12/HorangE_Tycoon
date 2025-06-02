@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+
 
 public class RiceCakeMachion : MonoBehaviour
 {
@@ -61,11 +61,14 @@ public class RiceCakeMachion : MonoBehaviour
     //    }
     //}
 
+    
 
-    [Header("아이템")]
+    [Header("아이템")]                                 // 크아악 코드가... 너무 더러워
     public Item tteokItem;
     public float interactionDelay = 1f;               // 플레이어 생산속도
     public float workerProductionInterval = 1.5f;     // 알바생 생산속도
+    public TimeUI PlayerTimeUI;
+    public GameObject PlayerCanvas;
 
     [Header("임시 저장고")]
     public Transform storageVisualParent;             // 떡 생성 위치
@@ -86,8 +89,11 @@ public class RiceCakeMachion : MonoBehaviour
     public float upgradeTime = 5f;                   // 업그레이드 소요 시간
     public GameObject PartTimeWorkerPrefab;
 
+    public TimeUI PartTimeTimeWorkerUI;
+
     private Coroutine playerProductionCoroutine;
     private Coroutine transferCoroutine;
+    private Coroutine UpgradeCoroutine;
 
     private void Start()
     {
@@ -105,6 +111,7 @@ public class RiceCakeMachion : MonoBehaviour
         if (UpgradeTrigger != null)
         {
             UpgradeTrigger.OnEntered += HandleUpgradeEnter;
+            UpgradeTrigger.OnExited += HandleUpgradeExit;
             // 업그레이드 중단은 따로 하지 않음
         }
 
@@ -127,6 +134,7 @@ public class RiceCakeMachion : MonoBehaviour
         if (UpgradeTrigger != null)
         {
             UpgradeTrigger.OnEntered -= HandleUpgradeEnter;
+            UpgradeTrigger.OnExited -= HandleUpgradeExit;
         }
     }
 
@@ -135,6 +143,7 @@ public class RiceCakeMachion : MonoBehaviour
     {
         if (playerProductionCoroutine == null)
         {
+            PlayerCanvas.SetActive(true);
             playerProductionCoroutine = StartCoroutine(ProduceToStorage(interactionDelay));
         }
     }
@@ -143,6 +152,8 @@ public class RiceCakeMachion : MonoBehaviour
     {
         if (playerProductionCoroutine != null)
         {
+            PlayerCanvas.SetActive(false);
+            PlayerTimeUI.StopCooldown();
             StopCoroutine(playerProductionCoroutine);
             playerProductionCoroutine = null;
         }
@@ -151,6 +162,7 @@ public class RiceCakeMachion : MonoBehaviour
     private IEnumerator ProduceToStorage(float interval)
     {
         // 첫 생산 대기
+        PlayerTimeUI.StartCooldown(interval);
         yield return new WaitForSeconds(interval);
 
         while (true)
@@ -160,6 +172,7 @@ public class RiceCakeMachion : MonoBehaviour
                 tempStorage.Add(tteokItem);
                 SpawnStorageVisual();
             }
+            PlayerTimeUI.StartCooldown(interval);
             yield return new WaitForSeconds(interval);
         }
     }
@@ -215,7 +228,7 @@ public class RiceCakeMachion : MonoBehaviour
         float delay = PickUpItemTime;
         while (true)
         {
-            if (tempStorage.Count > 0)
+            if (tempStorage.Count > 0 && holder.items.Count < holder.maxCapacity)
             {
                 Item item = tempStorage[0];
                 tempStorage.RemoveAt(0);
@@ -231,13 +244,31 @@ public class RiceCakeMachion : MonoBehaviour
     {
         if (!isUpgraded)
         {
-            StartCoroutine(ProcessUpgrade());
+            if (UpgradeCoroutine == null)
+            {
+                PlayerCanvas.SetActive(true);
+                UpgradeCoroutine = StartCoroutine(ProcessUpgrade());
+            }
+            
+        }
+    }
+
+    private void HandleUpgradeExit(Collider other)
+    {
+        if (UpgradeCoroutine != null)
+        {
+            PlayerTimeUI.StopCooldown();
+            PlayerCanvas.SetActive(false);
+            StopCoroutine(UpgradeCoroutine);
+            UpgradeCoroutine = null;
         }
     }
 
     private IEnumerator ProcessUpgrade()
     {
+        PlayerTimeUI.StartCooldown(upgradeTime);
         yield return new WaitForSeconds(upgradeTime);
+        PlayerCanvas.SetActive(false);
         if (MoneyManager.Instance.SpendMoney(UpgradeCost))
         {
             isUpgraded = true;
@@ -245,7 +276,21 @@ public class RiceCakeMachion : MonoBehaviour
             UpgradeTrigger.gameObject.SetActive(false);
 
             // 자동 생산
-            StartCoroutine(ProduceToStorage(workerProductionInterval));
+            //StartCoroutine(ProduceToStorage(workerProductionInterval));
+            PartTimeTimeWorkerUI.StartCooldown(workerProductionInterval);
+            yield return new WaitForSeconds(workerProductionInterval);
+
+            while (true)
+            {
+                if (tempStorage.Count < maxStorageCapacity)
+                {
+                    tempStorage.Add(tteokItem);
+                    SpawnStorageVisual();
+                }
+                PartTimeTimeWorkerUI.StartCooldown(workerProductionInterval);
+                yield return new WaitForSeconds(workerProductionInterval);
+            }
+            //
         }
         
     }
